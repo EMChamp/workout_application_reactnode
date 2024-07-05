@@ -1,17 +1,8 @@
-// _app.tsx
-
-import '../styles/globals.css'; // Adjust path according to your structure
-import '../styles/styles.css'; // Adjust path according to your structure
-
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Layout from './layout'; // Import your Layout component
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;

@@ -1,0 +1,38 @@
+# Node.js dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Output of npm
+npm-debug.log*
+
+# Next.js build output
+/.next/
+/out/
+
+# IDE files
+.idea
+.vscode
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js temporary files
+*.pnp.*
+*.pnp.js
+
+# Yarn
+.yarn/*
+
+# TypeScript build output
+/tsconfig.tsbuildinfo
+
+# ESLint cache
+.eslintcache
+
+# Next.js cache
+.next/cache/
+.next/cache/*
