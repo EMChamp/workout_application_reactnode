@@ -1,0 +1,4 @@
+module.exports = {
+    apiUrl: 'YOUR_API_URL',
+    apiKey: 'YOUR_API_KEY'
+  };  
