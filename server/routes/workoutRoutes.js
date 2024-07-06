@@ -1,34 +1,30 @@
+// routes/workoutRoutes.js
 const express = require('express');
 const Workout = require('../models/Workout');
-const { protect } = require('../middleware/auth');
-
 const router = express.Router();
 
-// Create workout
-router.post('/', protect, async (req, res) => {
-  const { date, exercises } = req.body;
-
-  try {
-    const workout = new Workout({
-      user: req.user._id,
-      date,
-      exercises,
-    });
-
-    const createdWorkout = await workout.save();
-    res.status(201).json(createdWorkout);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return res.status(403).json({ message: 'Token not provided' });
   }
-});
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    req.userId = decoded.userId;
+    next();
+  });
+};
 
-// Get all workouts for the logged-in user
-router.get('/', protect, async (req, res) => {
+// Get workouts for a specific user
+router.get('/', verifyToken, async (req, res) => {
   try {
-    const workouts = await Workout.find({ user: req.user._id });
-    res.json(workouts);
+    const workouts = await Workout.find({ user: req.userId });
+    res.status(200).json(workouts);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: error.message });
   }
 });
 
