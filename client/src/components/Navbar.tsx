@@ -1,9 +1,15 @@
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import isBrowser from '../utils/isBrowser';
 
 const Navbar = () => {
   const router = useRouter();
-  const isLoggedIn = isBrowser() && localStorage.getItem('token');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Update the logged-in state on the client side after component mounts
+    setIsLoggedIn(isBrowser() && !!localStorage.getItem('token'));
+  }, []);
 
   const handleLogout = () => {
     if (isBrowser()) {

@@ -5,27 +5,30 @@ import isBrowser from '../utils/isBrowser';
 import Sidebar from '../components/Sidebar';
 
 const Home = () => {
-  const [exercises, setExercises] = useState<any[]>([]);
+  const [workouts, setWorkouts] = useState<any[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasWorkouts, setHasWorkouts] = useState(true);
 
   useEffect(() => {
-    const getExercises = async () => {
+    const getWorkouts = async () => {
       if (isBrowser()) {
         const token = localStorage.getItem('token');
         if (token) {
           setIsLoggedIn(true);
           try {
-            const workouts = await fetchWorkouts(token);
-            if (workouts.length === 0) {
+            const fetchedWorkouts = await fetchWorkouts(token);
+            if (fetchedWorkouts.length === 0) {
               setHasWorkouts(false);
             } else {
               setHasWorkouts(true);
-              const workoutList: any[] = workouts.flatMap((workout: any) => workout.exercises);
-              setExercises(workoutList);
+              setWorkouts(fetchedWorkouts.map((workout: any) => ({
+                ...workout,
+                date: new Date(workout.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+              })));
+              console.log('Formatted Workout Data:', fetchedWorkouts);
             }
           } catch (error) {
-            console.error('Error fetching exercises:', error);
+            console.error('Error fetching workouts:', error);
           }
         } else {
           setIsLoggedIn(false);
@@ -33,7 +36,7 @@ const Home = () => {
       }
     };
 
-    getExercises();
+    getWorkouts();
   }, []);
 
   return (
@@ -47,13 +50,31 @@ const Home = () => {
               <>
                 <h1 className="text-2xl font-bold mb-4">Workout List</h1>
                 {hasWorkouts ? (
-                  <ul className="list-disc pl-5">
-                    {exercises.map((exercise: any) => (
-                      <li key={exercise._id} className="mb-2">
-                        {exercise.exerciseName}
-                      </li>
-                    ))}
-                  </ul>
+                  workouts.map((workout) => (
+                    <div key={workout._id} className="mb-6">
+                      <h2 className="text-xl font-bold mb-2">Date: {workout.date}</h2>
+                      <table className="min-w-full table-auto">
+                        <thead>
+                          <tr className="bg-gray-200 text-left text-gray-600 uppercase text-sm leading-normal">
+                            <th className="py-3 px-6">Exercise</th>
+                            <th className="py-3 px-6">Reps</th>
+                            <th className="py-3 px-6">Weight (kg)</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {workout.exercises.map((exercise: any, exerciseIndex: number) => (
+                            exercise.sets.map((set: any, setIndex: number) => (
+                              <tr key={`${exercise._id}-${setIndex}`} className="text-gray-700">
+                                {setIndex === 0 && <td rowSpan={exercise.sets.length} className="py-3 px-6">{exercise.name}</td>}
+                                <td className="py-3 px-6">{set.reps}</td>
+                                <td className="py-3 px-6">{set.weight} kg</td>
+                              </tr>
+                            ))
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ))
                 ) : (
                   <p>You have not added any workouts yet.</p>
                 )}
