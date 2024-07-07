@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
+
 const NewWorkout = () => {
   const [date, setDate] = useState('');
   const [exercises, setExercises] = useState([{ name: '', sets: [{ reps: '', weight: '' }] }]);
@@ -41,7 +43,7 @@ const NewWorkout = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://rsunga.ngrok.io/api/workouts', {
+      const response = await fetch(`${apiUrl}/api/workouts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

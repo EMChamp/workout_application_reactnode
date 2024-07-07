@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import isBrowser from '../utils/isBrowser';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -10,7 +11,8 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://rsunga.ngrok.io/api/users/login', {
+      console.log('apiUrl:', apiUrl);
+      const response = await fetch(`${apiUrl}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

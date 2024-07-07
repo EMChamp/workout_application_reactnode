@@ -13,12 +13,19 @@ const PORT = process.env.PORT || 5040;
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 
-app.use(cors());
+// Configure CORS to allow requests from any origin
+app.use(cors({
+    origin: '*',  // Allow all origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed HTTP methods
+    credentials: true, // Allows credentials such as cookies to be sent with requests
+    allowedHeaders: 'Content-Type, Authorization, X-Requested-With' // Allowed custom headers
+}));
+
 app.use(bodyParser.json());
 
 app.use('/api/users', userRoutes);

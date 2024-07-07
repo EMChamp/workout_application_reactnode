@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ const Register = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://rsunga.ngrok.io/api/users/register', {
+      const response = await fetch(`${apiUrl}/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
