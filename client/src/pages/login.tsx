@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import isBrowser from '../utils/isBrowser';
-const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
+const apiUrl = "https://fitnessflowai.com"; // Use the environment variable
 
 const Login = () => {
   const [username, setUsername] = useState('');

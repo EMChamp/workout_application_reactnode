@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL; // Use the environment variable
+const apiUrl = "https://fitnessflowai.com";
 
 const NewWorkout = () => {
   const [date, setDate] = useState('');

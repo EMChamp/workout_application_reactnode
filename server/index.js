@@ -28,6 +28,11 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
+// Health check endpoint
+app.get('/api/healthcheck', (req, res) => {
+    res.status(200).send('OK');
+});
+
 app.use('/api/users', userRoutes);
 app.use('/api/workouts', workoutRoutes);
 
