@@ -11,7 +11,10 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Access denied' });
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ message: 'Invalid token' });
+    if (err) {
+      console.log('Invalid token:', err.message);
+      return res.status(403).json({ message: 'Invalid token' });
+    }
     req.user = user;
     next();
   });
@@ -26,6 +29,7 @@ router.post('/register', async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
+    console.log('Error registering user:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -33,6 +37,7 @@ router.post('/register', async (req, res) => {
 // Login user
 router.post('/login', async (req, res) => {
   try {
+    console.log("login called");
     const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (!user) {
@@ -45,6 +50,7 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
+    console.log('Error logging in:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -56,6 +62,7 @@ router.get('/me', authenticateToken, async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
   } catch (error) {
+    console.log('Error getting current user info:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
