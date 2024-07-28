@@ -33,7 +33,7 @@ RUN \
   fi
 
 # Production image, copy all the files and run next
-FROM node:18-alpine AS runner
+FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
@@ -51,7 +51,7 @@ RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 COPY package.json ./
 COPY --from=deps /app/node_modules ./node_modules
