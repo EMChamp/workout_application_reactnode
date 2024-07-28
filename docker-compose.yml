@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   backend:
@@ -11,21 +11,11 @@ services:
       - mongo
 
   frontend:
-    build: 
-      context: ./client
-      target: dev
-      dockerfile: Dockerfile
+    build: ./client
     ports:
       - "5041:5041"
-    environment:
-      - API_URL=http://backend:5040  # URL pointing to the backend within the Docker network
-      - NODE_ENV=production
     depends_on:
       - backend
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
 
   mongo:
     image: mongo:latest
