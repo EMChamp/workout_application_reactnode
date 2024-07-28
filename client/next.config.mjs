@@ -1,8 +1,8 @@
 // next.config.mjs
 
 const nextConfig = {
-  basePath: '',
-  assetPrefix: '',
+  basePath: '/frontend',
+  assetPrefix: '/frontend/',
 };
 
 export default nextConfig;
