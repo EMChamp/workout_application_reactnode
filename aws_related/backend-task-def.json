@@ -20,7 +20,7 @@
             "environment": [
                 {
                     "name": "MONGO_URI",
-                    "value": "mongodb://localhost:27017/workoutdb"
+                    "value": "mongodb://mongo:27017"
                 }
             ],
             "logConfiguration": {

@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5040;
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI + '/workoutdb', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 
 // Health check endpoint
 app.get('/api/healthcheck', (req, res) => {
-    res.status(200).send('OK');
+    res.status(200).json({ status: 'OK' });
 });
 
 app.use('/api/users', userRoutes);
