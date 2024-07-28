@@ -18,6 +18,8 @@ services:
       - API_URL=http://backend:5040  # URL pointing to the backend within the Docker network
     depends_on:
       - backend
+    volumes:
+      - ./data/static:/app/.next/static
 
   mongo:
     image: mongo:latest
