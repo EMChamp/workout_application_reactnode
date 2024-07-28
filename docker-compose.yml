@@ -16,9 +16,10 @@ services:
       target: dev
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "5041:5041"
     environment:
       - API_URL=http://backend:5040  # URL pointing to the backend within the Docker network
+      - NODE_ENV=production
     depends_on:
       - backend
     volumes:
