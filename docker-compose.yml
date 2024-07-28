@@ -11,7 +11,10 @@ services:
       - mongo
 
   frontend:
-    build: ./client
+    build: 
+      context: ./client
+      target: dev
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -19,7 +22,9 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./data/static:/app/.next/static
+      - .:/app
+      - /app/node_modules
+      - /app/.next
 
   mongo:
     image: mongo:latest
